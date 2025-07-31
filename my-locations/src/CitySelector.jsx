@@ -1,50 +1,54 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 
-const BASE_URL = 'https://crio-location-selector.onrender.com'
+const BASE_URL = 'https://crio-location-selector.onrender.com';
 
-function LocationSelector() {
-  const [countries, setCountries] = useState([])
-  const [states, setStates] = useState([])
-  const [cities, setCities] = useState([])
+export default function CitySelector() {
+  const [countries, setCountries] = useState([]);
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
 
-  const [selectedCountry, setSelectedCountry] = useState('')
-  const [selectedState, setSelectedState] = useState('')
-  const [selectedCity, setSelectedCity] = useState('')
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedState, setSelectedState] = useState('');
+  const [selectedCity, setSelectedCity] = useState('');
 
+  // Fetch countries on first render
   useEffect(() => {
     fetch(`${BASE_URL}/countries`)
-      .then((res) => res.json())
-      .then((data) => setCountries(data))
-      .catch((err) => console.error(err))
-  }, [])
+      .then(res => res.json())
+      .then(data => setCountries(data))
+      .catch(err => console.error(err));
+  }, []);
 
+  // Fetch states on country selection
   useEffect(() => {
     if (selectedCountry) {
       fetch(`${BASE_URL}/country=${selectedCountry}/states`)
-        .then((res) => res.json())
-        .then((data) => setStates(data))
-        .catch((err) => console.error(err))
+        .then(res => res.json())
+        .then(data => setStates(data))
+        .catch(err => console.error(err));
     }
-    setSelectedState('')
-    setSelectedCity('')
-    setStates([])
-    setCities([])
-  }, [selectedCountry])
+    setSelectedState('');
+    setSelectedCity('');
+    setStates([]);
+    setCities([]);
+  }, [selectedCountry]);
 
+  // Fetch cities on state selection
   useEffect(() => {
     if (selectedCountry && selectedState) {
       fetch(`${BASE_URL}/country=${selectedCountry}/state=${selectedState}/cities`)
-        .then((res) => res.json())
-        .then((data) => setCities(data))
-        .catch((err) => console.error(err))
+        .then(res => res.json())
+        .then(data => setCities(data))
+        .catch(err => console.error(err));
     }
-    setSelectedCity('')
-    setCities([])
-  }, [selectedState])
+    setSelectedCity('');
+    setCities([]);
+  }, [selectedState]);
 
   return (
     <div>
       <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+        {/* Country Dropdown */}
         <select
           data-testid="country"
           value={selectedCountry}
@@ -58,6 +62,7 @@ function LocationSelector() {
           ))}
         </select>
 
+        {/* State Dropdown */}
         <select
           data-testid="state"
           value={selectedState}
@@ -72,6 +77,7 @@ function LocationSelector() {
           ))}
         </select>
 
+        {/* City Dropdown */}
         <select
           data-testid="city"
           value={selectedCity}
@@ -87,13 +93,12 @@ function LocationSelector() {
         </select>
       </div>
 
+      {/* Final Selection Text */}
       {selectedCity && (
         <p data-testid="selected-location">
           You selected {selectedCity}, {selectedState}, {selectedCountry}
         </p>
       )}
     </div>
-  )
+  );
 }
-
-export default LocationSelector
