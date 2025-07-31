@@ -1,13 +1,13 @@
-import React from 'react'
-import LocationSelector from './LocationSelector'
+import React from 'react';
+import CitySelector from './CitySelector';
 
 function App() {
   return (
-    <div style={{ padding: '2rem', fontFamily: 'Arial' }}>
+    <div style={{ padding: '2rem' }}>
       <h1>Location Selector</h1>
-      <LocationSelector />
+      <CitySelector />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
