@@ -4,7 +4,7 @@ import CitySelector from './CitySelector';
 function App() {
   return (
     <div style={{ padding: '2rem' }}>
-      <h1>Location Selector</h1>
+      <h1>Location Selectors</h1>
       <CitySelector />
     </div>
   );
