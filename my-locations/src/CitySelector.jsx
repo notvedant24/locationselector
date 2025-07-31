@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const BASE_URL = 'https://crio-location-selector.onrender.com';
 
@@ -11,21 +11,21 @@ export default function CitySelector() {
   const [selectedState, setSelectedState] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
 
-  // Fetch countries on first render
+  // Fetch all countries on first render
   useEffect(() => {
     fetch(`${BASE_URL}/countries`)
-      .then(res => res.json())
-      .then(data => setCountries(data))
-      .catch(err => console.error(err));
+      .then((res) => res.json())
+      .then((data) => setCountries(data))
+      .catch((err) => console.error(err));
   }, []);
 
-  // Fetch states on country selection
+  // Fetch states of selected country
   useEffect(() => {
     if (selectedCountry) {
       fetch(`${BASE_URL}/country=${selectedCountry}/states`)
-        .then(res => res.json())
-        .then(data => setStates(data))
-        .catch(err => console.error(err));
+        .then((res) => res.json())
+        .then((data) => setStates(data))
+        .catch((err) => console.error(err));
     }
     setSelectedState('');
     setSelectedCity('');
@@ -33,13 +33,13 @@ export default function CitySelector() {
     setCities([]);
   }, [selectedCountry]);
 
-  // Fetch cities on state selection
+  // Fetch cities of selected state
   useEffect(() => {
     if (selectedCountry && selectedState) {
       fetch(`${BASE_URL}/country=${selectedCountry}/state=${selectedState}/cities`)
-        .then(res => res.json())
-        .then(data => setCities(data))
-        .catch(err => console.error(err));
+        .then((res) => res.json())
+        .then((data) => setCities(data))
+        .catch((err) => console.error(err));
     }
     setSelectedCity('');
     setCities([]);
@@ -93,7 +93,7 @@ export default function CitySelector() {
         </select>
       </div>
 
-      {/* Final Selection Text */}
+      {/* Final Statement */}
       {selectedCity && (
         <p data-testid="selected-location">
           You selected {selectedCity}, {selectedState}, {selectedCountry}
